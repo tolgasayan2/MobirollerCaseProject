@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 class ProductDetailViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak var categoryLabel: UILabel!
   @IBOutlet weak var nameLabel: UILabel!
@@ -21,18 +19,16 @@ class ProductDetailViewController: UIViewController, UITextFieldDelegate {
   var name = ""
   var date = ""
   var price = ""
-  
-  
   var product = Product()
- 
+  
   override func viewDidLoad() {
-        super.viewDidLoad()
-   
-        categoryLabel.text = category
-        nameLabel.text = name
-        infoView.text = info
-        dateLabel.text = date
-        priceLabel.text = "\(price) TL"
+    super.viewDidLoad()
+    
+    categoryLabel.text = category
+    nameLabel.text = name
+    infoView.text = info
+    dateLabel.text = date
+    priceLabel.text = "\(price) TL"
     
     priceLabel.font = .boldSystemFont(ofSize: 17)
     categoryLabel.font = .boldSystemFont(ofSize: 17)
@@ -40,7 +36,5 @@ class ProductDetailViewController: UIViewController, UITextFieldDelegate {
     dateLabel.font = .boldSystemFont(ofSize: 17)
     priceLabel.font = .boldSystemFont(ofSize: 17)
     infoView.font = .boldSystemFont(ofSize: 15)
-
-    }
-    
+  }
 }

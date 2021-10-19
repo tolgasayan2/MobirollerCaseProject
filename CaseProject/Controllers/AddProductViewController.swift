@@ -17,12 +17,13 @@ protocol AddProductViewControllerDelegate: AnyObject {
 class AddProductViewController: UITableViewController, UITextFieldDelegate {
   
   private let database = Database.database().reference().child("products")
-  
+  let categories = ["Beyaz Eşya", "Moda", "Elektronik", "Spor", "Kişisel Bakım", "Ev", "Süpermarket", "Hobi"]
   weak var delegate: AddProductViewControllerDelegate?
   var editProduct: Product?
   var product = Product()
   let date = Date()
   let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  let pickerView = UIPickerView()
   
   @IBOutlet weak var doneBarButton: UIBarButtonItem!
   @IBOutlet weak var categoryTextField: UITextField!
@@ -36,6 +37,11 @@ class AddProductViewController: UITableViewController, UITextFieldDelegate {
     super.viewDidLoad()
     
     createDatePicker()
+    
+    pickerView.delegate = self
+    pickerView.dataSource = self
+    categoryTextField.inputView = pickerView
+    categoryTextField.textAlignment = .center
     
     //MARK: - Edit Page
     
@@ -73,6 +79,8 @@ class AddProductViewController: UITableViewController, UITextFieldDelegate {
     dateTextField.inputView = datePicker
     dateTextField.inputAccessoryView = toolbar
   }
+  
+  
   
   @objc func donePressed() {
     let formatter = DateFormatter()
@@ -138,4 +146,25 @@ class AddProductViewController: UITableViewController, UITextFieldDelegate {
     }
     return true
   }
+}
+
+extension AddProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return categories.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return categories[row]
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    categoryTextField.text = categories[row]
+    categoryTextField.resignFirstResponder()
+  }
+  
+  
 }
