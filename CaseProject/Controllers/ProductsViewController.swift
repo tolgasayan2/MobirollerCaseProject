@@ -30,6 +30,23 @@ class ProductsViewController: UITableViewController, AddProductViewControllerDel
     
   }
   
+  
+  @IBAction func orderButton(_ sender: UIBarButtonItem) {
+    sender.tag += 1
+    if sender.tag > 2 { sender.tag = 0 }
+    
+    switch sender.tag {
+    case 1:
+     products =  products.sorted(by: {$0.date < $1.date})
+    case 2:
+     products =  products.sorted(by: {$0.date > $1.date})
+    default:
+     products =  products.sorted(by: {$0.date > $1.date})
+    }
+      tableView.reloadData()
+   }
+  
+  
   //MARK: - Firebase Retrieve Data
   
   func loadProducts(){
@@ -73,8 +90,8 @@ class ProductsViewController: UITableViewController, AddProductViewControllerDel
     
     if let index = products.firstIndex(of: product) {
       let indexPath = IndexPath(row: index, section: 0)
-      if let cell = tableView.cellForRow(at: indexPath) {
-        cell.textLabel?.text = product.name
+      if let cell = tableView.cellForRow(at: indexPath) as? TableViewCell {
+        cell.nameLabel.text = product.name
       }
       navigationController?.popViewController(animated: true)
     }
@@ -90,7 +107,7 @@ class ProductsViewController: UITableViewController, AddProductViewControllerDel
     if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell {
       let product = products[indexPath.row]
       cell.nameLabel.text = product.name
-      cell.categoryLabel.text = product.category
+      cell.categoryLabel.text = product.date
       cell.accessoryType = .detailDisclosureButton
       
       return cell
